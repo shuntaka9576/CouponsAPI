@@ -14,7 +14,7 @@ Resources:
     Properties:
       Role: arn:aws:iam::842944609026:role/dev-cpa-roleLambda-initDynamoFunction
       CodeUri: build/initDynamo
-      Handler: app.lambda_handler
+      Handler: app.lambda_handler.lambda_handler
       Runtime: python3.6
       Timeout: 300
       Policies: AmazonS3ReadOnlyAccess
