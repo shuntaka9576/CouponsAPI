@@ -4,13 +4,12 @@
 # 引数がlocalstackの場合、LocalStack上にS3とDynamoDBを削除、作成
 
 DYNAMO_DB_NAME=coupons
-DYNAMO_LS_URL=http://localhost:4569
-S3_LS_URL=http://localhost:4572
-
 if [ "$1" == "localstack" ]; then
-    DYNAMO_ENDPOINT_URL=${DYNAMO_LS_URL}
+    DYNAMO_ENDPOINT_URL=http://localhost:4569
+    S3_ENDPOINT_URL=http://localhost:4572
 elif [ "$1" == "aws" ]; then
     DYNAMO_ENDPOINT_URL=http://dynamodb.ap-northeast-1.amazonaws.com
+    S3_ENDPOINT_URL=http://dynamodb.ap-northeast-1.amazonaws.com
 else
     echo "invalid arguments"
     exit 1
@@ -18,7 +17,7 @@ fi
 
 create(){
     if [ "$1" == "localstack" ]; then
-        aws s3 mb s3://dev-cpa-s3-coupons --endpoint-url=${S3_LS_URL}
+        aws s3 mb s3://dev-cpa-s3-coupons --endpoint-url=${S3_ENDPOINT_URL}
     fi
 
     echo "=*=*=*=*=*=*= create dynamo db =*=*=*=*=*=*="
@@ -31,6 +30,7 @@ create(){
         --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 \
         --endpoint-url ${DYNAMO_ENDPOINT_URL}
 
+    aws s3 cp ../initDynamo/dynamoData/initDbData.json s3://dev-cpa-s3-coupons/dynamodb/initDbData.json --endpoint-url ${DYNAMO_ENDPOINT_URL}
     aws dynamodb list-tables --endpoint-url ${DYNAMO_ENDPOINT_URL}
     aws dynamodb scan --table-name ${DYNAMO_DB_NAME} --endpoint-url ${DYNAMO_ENDPOINT_URL}
 }
@@ -43,7 +43,7 @@ clean(){
 
     if [ "$1" == "localstack" ]; then
         echo "delete s3"
-        aws s3 rb s3://dev-cpa-s3-coupons --endpoint-url=${S3_LS_URL}
+        aws s3 rb s3://dev-cpa-s3-coupons --endpoint-url=${S3_ENDPOINT_URL}
     fi
 }
 
