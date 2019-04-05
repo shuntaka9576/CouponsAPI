@@ -1,0 +1,28 @@
+swagger: "2.0"
+schemes:
+  - "https"
+paths:
+  /coupons:
+    get:
+      summary: "クーポン一覧API"
+      description: "クーポンの全て情報を返します"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${couponsGetListFunction.Arn}/invocations
+        passthroughBehavior: when_no_templates
+        httpMethod: POST
+        type: aws_proxy
+  /coupons/{id}:
+    get:
+      summary: "クーポン情報API"
+      description: "指定されたidのクーポンの情報を返します"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${couponsGetIdFunction.Arn}/invocations
+        passthroughBehavior: when_no_templates
+        httpMethod: POST
+        type: aws_proxy

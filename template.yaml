@@ -1,0 +1,82 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sam
+  Sample SAM Template for sam
+
+Globals:
+  Function:
+    Timeout: 100
+
+Resources:
+  initDynamoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: arn:aws:iam::842944609026:role/dev-cpa-roleLambda-initDynamoFunction
+      CodeUri: build/initDynamo
+      Handler: app.lambda_handler
+      Runtime: python3.6
+      Timeout: 300
+      Policies: AmazonS3ReadOnlyAccess
+      Tags:
+        SystemID: 'CPA'
+      Events:
+        S3CreateObject:
+          Type: S3
+          Properties:
+            Bucket: !Ref TargetBucket
+            Events: s3:ObjectCreated:Put
+
+  TargetBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: "dev-cpa-s3-coupons"
+      Tags:
+       -
+        Key: 'SystemID'
+        Value: 'CPA'
+
+  couponsGetListFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: arn:aws:iam::842944609026:role/dev-cpa-roleLambda-couponsApiFunction
+      CodeUri: build/couponsApi
+      Handler: app.getList.lambda_handler.lambda_handler
+      Runtime: python3.6
+      Tags:
+        SystemID: 'CPA'
+      Events:
+        listId:
+          Type: Api
+          Properties:
+            RestApiId: !Ref couponsApiGateway
+            Path: /coupons
+            Method: get
+
+  couponsGetIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: arn:aws:iam::842944609026:role/dev-cpa-roleLambda-couponsApiFunction
+      CodeUri: build/couponsApi
+      Handler: app.getId.lambda_handler.lambda_handler
+      Runtime: python3.6
+      Tags:
+        SystemID: 'CPA'
+      Events:
+        listId:
+          Type: Api
+          Properties:
+            RestApiId: !Ref couponsApiGateway
+            Path: /coupons/{id}
+            Method: get
+
+  couponsApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: couponsApiGateway
+      StageName: api
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: s3://dev-cpa-s3-developer/swagger.yaml
