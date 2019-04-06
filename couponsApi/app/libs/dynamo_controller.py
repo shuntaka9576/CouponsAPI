@@ -22,3 +22,11 @@ class dynamoRepository:
             KeyConditionExpression=Key('id').eq(id)
         )
         return res
+
+    def scanAll(self):
+        table = self.dynamodb.Table(self.table)
+        try:
+            res = table.scan()
+            return res
+        except Exception as e:
+            return e
