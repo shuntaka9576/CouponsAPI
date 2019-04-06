@@ -1,6 +1,6 @@
-from app.libs.dynamo_controller import dynamoRepository
-from app.libs.api_controller import validate
-from app.libs.api_controller import Controller
+from libs.dynamo_controller import dynamoRepository
+from libs.api_controller import validate
+from libs.api_controller import Controller
 
 schema = {
     "id": {

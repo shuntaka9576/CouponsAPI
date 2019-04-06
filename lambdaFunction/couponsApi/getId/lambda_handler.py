@@ -1,4 +1,4 @@
-from app.getId.getId_controller import GetIdController
+from getId.getId_controller import GetIdController
 
 
 def lambda_handler(event, context):

@@ -1,5 +1,5 @@
 test:
-	pipenv run pytest -p no:warnings --capture=no -v --cov=app/ --cov-report=html
+	pipenv run pytest -v
 	$(eval COV_DIR := $(shell pwd))
 	@echo To confirm: $(COV_DIR)/htmlcov/index.html
 dep:

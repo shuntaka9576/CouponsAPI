@@ -1,4 +1,4 @@
-from app.getList.getList_controller import GetListController
+from couponsApi.getList.getList_controller import GetListController
 
 
 class TestGetListController:

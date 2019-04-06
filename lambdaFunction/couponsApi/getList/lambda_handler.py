@@ -1,4 +1,4 @@
-from app.getList.getList_controller import GetListController
+from getList.getList_controller import GetListController
 
 
 def lambda_handler(event, context):

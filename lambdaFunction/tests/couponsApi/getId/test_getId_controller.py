@@ -1,4 +1,4 @@
-from app.getId.getId_controller import GetIdController
+from couponsApi.getId.getId_controller import GetIdController
 
 
 class TestGetIdController:
