@@ -15,7 +15,7 @@ Resources:
       Role: arn:aws:iam::842944609026:role/dev-cpa-roleLambda-initDynamoFunction
       CodeUri: build/initDynamo
       Handler: app.lambda_handler.lambda_handler
-      Runtime: python3.6
+      Runtime: python3.7
       Timeout: 300
       Policies: AmazonS3ReadOnlyAccess
       Tags:
@@ -42,7 +42,7 @@ Resources:
       Role: arn:aws:iam::842944609026:role/dev-cpa-roleLambda-couponsApiFunction
       CodeUri: build/couponsApi
       Handler: app.getList.lambda_handler.lambda_handler
-      Runtime: python3.6
+      Runtime: python3.7
       Tags:
         SystemID: 'CPA'
       Events:
@@ -59,7 +59,7 @@ Resources:
       Role: arn:aws:iam::842944609026:role/dev-cpa-roleLambda-couponsApiFunction
       CodeUri: build/couponsApi
       Handler: app.getId.lambda_handler.lambda_handler
-      Runtime: python3.6
+      Runtime: python3.7
       Tags:
         SystemID: 'CPA'
       Events:
