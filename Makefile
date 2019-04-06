@@ -9,12 +9,14 @@ clean:
 	-aws s3 rm s3://${S3_BUCKET_COUPONS} --recursive
 	aws cloudformation delete-stack --stack-name ${CFN_STACK_NAME}
 build:
-	mkdir -p ${BUILD_PATH}
-	cp -r ./lambdaFunction/couponsApi ${BUILD_PATH}
-	cp -r ./lambdaFunction/initDynamo ${BUILD_PATH}
-	cp -r ./lambdaFunction/.venv/lib/python3.7/site-packages/* ${BUILD_PATH}
+	-rm -rf build
+	mkdir -p ${BUILD_PATH}; touch ${BUILD_PATH}/__init__.py;
+	cp -r ./lambdaFunctions/couponsApi ${BUILD_PATH}
+	cp -r ./lambdaFunctions/initDynamo ${BUILD_PATH}
+	cp -r ./lambdaFunctions/libs ${BUILD_PATH}
+	cp -r ./lambdaFunctions/.venv/lib/python3.7/site-packages/* ${BUILD_PATH}
 deploy: clean build
-	aws s3 cp ./couponsApi/swagger/swagger.yaml s3://${S3_BUCKET_DEVELOPER}/swagger.yaml
+	aws s3 cp ./swagger/swagger.yaml s3://${S3_BUCKET_DEVELOPER}/swagger.yaml
 	sam package --template-file template.yaml --output-template-file packaged.yaml --s3-bucket ${S3_BUCKET_DEVELOPER}
 	aws cloudformation deploy --template-file packaged.yaml --stack-name ${CFN_STACK_NAME} --capabilities CAPABILITY_IAM
 	aws cloudformation describe-stacks --stack-name ${CFN_STACK_NAME} --query 'Stacks[].Outputs'

@@ -1,4 +1,4 @@
-from getList.getList_controller import GetListController
+from couponsApi.getList.getList_controller import GetListController
 
 
 def lambda_handler(event, context):
