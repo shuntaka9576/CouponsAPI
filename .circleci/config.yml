@@ -30,15 +30,15 @@ jobs:
       - run:
           name: "Install dependencies"
           command: |
-            cd lambdaFunction/
+            cd lambdaFunctions/
             pipenv install
       - run:
           name: "Run tests"
           command: |
-            cd lambdaFunction/
+            cd lambdaFunctions/
             make test
       - run:
           name: "Send codecov"
           command: |
-            cd lambdaFunction/
+            cd lambdaFunctions/
             pipenv run codecov
