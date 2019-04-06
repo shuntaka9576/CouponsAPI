@@ -6,6 +6,10 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+pytest = "*"
+cerberus = "*"
+pytest-cov = "*"
+codecov = "*"
 
 [requires]
 python_version = "3.7"
