@@ -1,6 +1,13 @@
-from app.libs.dynamo_controller import dynamoRepository
-from app.libs.api_controller import validate
-from app.libs.api_controller import Controller
+from libs.dynamo_controller import dynamoRepository
+from libs.api_controller import validate
+from libs.api_controller import Controller
+
+schema = {
+    "path": {
+        "type": "string",
+        "regex": "/coupons",
+    }
+}
 
 
 class GetListController(Controller):
@@ -9,10 +16,7 @@ class GetListController(Controller):
 
     @validate(schema)
     def handler(self, params):
-        reqid = params['id']
-        res = self.dynamoRepo.searchId(reqid)
-        # TODO Countが1以外の時のエラーハンドリング処理
-
+        res = self.dynamoRepo.scanAll()
         return self.ok({
             "header": {
                 "status": "Success",

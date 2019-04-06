@@ -9,11 +9,10 @@ clean:
 	-aws s3 rm s3://${S3_BUCKET_COUPONS} --recursive
 	aws cloudformation delete-stack --stack-name ${CFN_STACK_NAME}
 build:
-	-rm -rf ${BUILD_PATH};mkdir -p ${BUILD_PATH}/couponsApi;mkdir -p ${BUILD_PATH}/initDynamo
-	cp -r ./couponsApi/app ${BUILD_PATH}/couponsApi/app
-	cp -r ./couponsApi/.venv/lib/python3.7/site-packages/* ${BUILD_PATH}/couponsApi
-	cp -r ./initDynamo/app ${BUILD_PATH}/initDynamo/app
-	cp -r ./initDynamo/.venv/lib/python3.7/site-packages/* ${BUILD_PATH}/initDynamo
+	mkdir -p ${BUILD_PATH}
+	cp -r ./lambdaFunction/couponsApi ${BUILD_PATH}
+	cp -r ./lambdaFunction/initDynamo ${BUILD_PATH}
+	cp -r ./lambdaFunction/.venv/lib/python3.7/site-packages/* ${BUILD_PATH}
 deploy: clean build
 	aws s3 cp ./couponsApi/swagger/swagger.yaml s3://${S3_BUCKET_DEVELOPER}/swagger.yaml
 	sam package --template-file template.yaml --output-template-file packaged.yaml --s3-bucket ${S3_BUCKET_DEVELOPER}
