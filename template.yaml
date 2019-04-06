@@ -13,8 +13,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: arn:aws:iam::842944609026:role/dev-cpa-roleLambda-initDynamoFunction
-      CodeUri: build/initDynamo
-      Handler: app.lambda_handler.lambda_handler
+      CodeUri: build
+      Handler: initDynamo.lambda_handler.lambda_handler
       Runtime: python3.6
       Timeout: 300
       Policies: AmazonS3ReadOnlyAccess
@@ -40,8 +40,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: arn:aws:iam::842944609026:role/dev-cpa-roleLambda-couponsApiFunction
-      CodeUri: build/couponsApi
-      Handler: app.getList.lambda_handler.lambda_handler
+      CodeUri: build
+      Handler: couponsApi.getList.lambda_handler.lambda_handler
       Runtime: python3.6
       Tags:
         SystemID: 'CPA'
@@ -57,8 +57,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: arn:aws:iam::842944609026:role/dev-cpa-roleLambda-couponsApiFunction
-      CodeUri: build/couponsApi
-      Handler: app.getId.lambda_handler.lambda_handler
+      CodeUri: build
+      Handler: couponsApi.getId.lambda_handler.lambda_handler
       Runtime: python3.6
       Tags:
         SystemID: 'CPA'

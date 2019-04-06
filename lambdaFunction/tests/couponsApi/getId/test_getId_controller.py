@@ -1,8 +1,9 @@
 from couponsApi.getId.getId_controller import GetIdController
+from tests.fixture import initdb
 
 
 class TestGetIdController:
-    def test_handler_200_SuccessValue(self):
+    def test_handler_200_SuccessValue(self, initdb):
         input = {"id": "0001245"}
         expectCode = 200
         want = GetIdController().handler(input)

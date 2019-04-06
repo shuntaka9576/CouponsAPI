@@ -1,0 +1,44 @@
+version: 2
+jobs:
+  build:
+    machine:
+      image: circleci/classic:201808-01
+    environment:
+      PIPENV_VENV_IN_PROJECT: "true"
+      AWS_DEFAULT_REGION: "ap-northeast-1"
+      AWS_SAM_LOCAL: "true"
+      AWS_ACCESS_KEY_ID: "dummy"
+      AWS_SECRET_ACCESS_KEY: "dummy"
+    steps:
+      - checkout
+      - run:
+          name: "Switch to Python v3.7"
+          command: |
+            pyenv versions
+            pyenv global 3.7.0
+      - run:
+          name: "Install pip modules for test"
+          command: |
+            pip install pipenv
+            pip install aws-sam-cli
+            pip install codecov
+      - run:
+          name: "Create LocaStack"
+          command: |
+            docker-compose up -d
+            ./script/createDynamo.sh localstack
+      - run:
+          name: "Install dependencies"
+          command: |
+            cd lambdaFunction/ 
+            pipenv install
+      - run:
+          name: "Run tests"
+          command: |
+            cd lambdaFunction/ 
+            make test
+      - run:
+          name: "Send codecov"
+          command: |
+            cd lambdaFunction/ 
+            pipenv run codecov

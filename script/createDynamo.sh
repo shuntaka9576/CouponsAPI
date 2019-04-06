@@ -3,6 +3,7 @@
 # 引数がawsの場合、aws上にDynamoDBのテーブルを削除、作成
 # 引数がlocalstackの場合、LocalStack上にS3とDynamoDBを削除、作成
 
+cd `dirname $0`
 DYNAMO_DB_NAME=coupons
 if [ "$1" == "localstack" ]; then
     DYNAMO_ENDPOINT_URL=http://localhost:4569
@@ -30,7 +31,7 @@ create(){
         --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 \
         --endpoint-url ${DYNAMO_ENDPOINT_URL}
 
-    aws s3 cp ../initDynamo/dynamoData/initDbData.json s3://dev-cpa-s3-coupons/dynamodb/initDbData.json --endpoint-url ${DYNAMO_ENDPOINT_URL}
+    aws s3 cp ../dynamoData/initDbData.json s3://dev-cpa-s3-coupons/dynamodb/initDbData.json --endpoint-url ${S3_ENDPOINT_URL}
     aws dynamodb list-tables --endpoint-url ${DYNAMO_ENDPOINT_URL}
     aws dynamodb scan --table-name ${DYNAMO_DB_NAME} --endpoint-url ${DYNAMO_ENDPOINT_URL}
 }
