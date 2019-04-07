@@ -23,6 +23,6 @@ class GetListController(Controller):
                 "errors": []
             },
             "response": {
-                "coupons": [res["Items"]]
+                "coupons": res["Items"]
             }
         })

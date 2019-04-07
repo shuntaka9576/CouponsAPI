@@ -1,10 +1,10 @@
+import json
 from couponsApi.getId.getId_controller import GetIdController
 from tests.fixture import initdb, couponTestDatas
-import json
 
 
 class TestGetIdController:
-    def test_handler_200_SuccessValue1(self, initdb):
+    def test_handler_200_successValue1(self, initdb):
         for coupon in couponTestDatas:
             input = {"id": coupon["id"]}
             expectCode = 200
@@ -24,19 +24,19 @@ class TestGetIdController:
             assert expectCode == want["statusCode"]
             assert expectRes == wantBody
 
-    def test_handler_400_IntegerValue(self, initdb):
+    def test_handler_400_integerValue(self, initdb):
         expectCode = 400
         input = {"id": 1245}
         want = GetIdController().handler(input)
         assert expectCode == want["statusCode"]
 
-    def test_handler_400_NotNumberValue(self, initdb):
+    def test_handler_400_notNumberValue(self, initdb):
         input = {"id": "zeroonetwo"}
         expectCode = 400
         want = GetIdController().handler(input)
         assert expectCode == want["statusCode"]
 
-    def test_handler_400_UnsupportedCouponId(self, initdb):
+    def test_handler_400_unsupportedCouponId(self, initdb):
         input = {"id": "000111"}
         expectCode = 400
         want = GetIdController().handler(input)
