@@ -1,6 +1,7 @@
-import pytest
-import os
 import boto3
+import os
+import pytest
+import termcolor
 
 couponTestDatas = [{
     "id": "0001245",
@@ -16,22 +17,44 @@ couponTestDatas = [{
     "qr-image": "https://s3-ap-northeast-1.amazonaws.com/dev-cpa-s3-materials/qr/0001246.jpg"
 }]
 
+if os.getenv("AWS_SAM_LOCAL"):
+    dynamodb = boto3.resource(
+        'dynamodb',
+        endpoint_url='http://localhost:4569/'
+    )
+    s3 = boto3.client(
+        's3',
+        endpoint_url='http://localhost:4573/'
+    )
+else:
+    dynamodb = boto3.resource('dynamodb')
+    s3 = boto3.client('s3')
+
+
+@pytest.fixture(scope="function", autouse=True)
+def initS3():
+    return
+
 
 @pytest.fixture(scope="function", autouse=True)
 def initdb():
-    if os.getenv("AWS_SAM_LOCAL"):
-        dynamodb = boto3.resource(
-            "dynamodb",
-            endpoint_url="http://localhost:4569/"
+    # テストデータを投入
+    table = dynamodb.Table("coupons")
+    for coupon in couponTestDatas:
+        table.put_item(
+            Item=coupon
         )
-    else:
-        dynamodb = boto3.resource("dynamodb")
+    yield print(termcolor.colored("PutDB[OK] ", "green"), end="")
 
-    try:
-        for coupon in couponTestDatas:
-            table = dynamodb.Table("coupons")
-            table.put_item(
-                Item=coupon
-            )
-    except Exception as e:
-        print(e)
+    # テストコード実行後、テーブルをtruncate
+    for coupon in couponTestDatas:
+        table.delete_item(
+            Key={
+                'id': coupon["id"]
+            })
+
+    res = table.scan()
+    if res["Count"] == 0:
+        print(termcolor.colored(" clearDB[OK] ", "green"), end="")
+    else:
+        raise Exception

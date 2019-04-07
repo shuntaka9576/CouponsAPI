@@ -1,6 +1,6 @@
-from libs.dynamo_controller import dynamoRepository
 from libs.api_controller import validate
 from libs.api_controller import Controller
+from libs.aws_resource_controller import dynamoController
 
 schema = {
     "path": {
@@ -11,12 +11,9 @@ schema = {
 
 
 class GetListController(Controller):
-    def __init__(self):
-        self.dynamoRepo = dynamoRepository()
-
     @validate(schema)
     def handler(self, params):
-        res = self.dynamoRepo.scanAll()
+        res = dynamoController().scanAll()
         return self.ok({
             "header": {
                 "status": "Success",

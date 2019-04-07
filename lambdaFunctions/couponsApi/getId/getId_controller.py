@@ -1,6 +1,6 @@
-from libs.dynamo_controller import dynamoRepository
 from libs.api_controller import validate
 from libs.api_controller import Controller
+from libs.aws_resource_controller import dynamoController
 
 schema = {
     "id": {
@@ -11,13 +11,11 @@ schema = {
 
 
 class GetIdController(Controller):
-    def __init__(self):
-        self.dynamoRepo = dynamoRepository()
-
     @validate(schema)
     def handler(self, params):
         reqid = params['id']
-        res = self.dynamoRepo.searchId(reqid)
+        res = dynamoController().searchId(reqid)
+
         if res["Count"] == 0:
             return self.bad({
                 "header": {

@@ -1,4 +1,5 @@
 import json
+import termcolor
 from couponsApi.getId.getId_controller import GetIdController
 from tests.fixture import initdb, couponTestDatas
 
