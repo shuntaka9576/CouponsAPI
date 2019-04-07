@@ -8,13 +8,17 @@ couponTestDatas = [{
     "title": "全商品 10% OFF !",
     "explain": "ご利用一回限り。他のクーポンとの併用はできません。クーポンをご利用いただいた場合、ポイントはつきません。",
     "coupon-image": "https://s3-ap-northeast-1.amazonaws.com/dev-cpa-s3-materials/coupon/0001245.png",
-    "qr-image": "https://s3-ap-northeast-1.amazonaws.com/dev-cpa-s3-materials/qr/0001245.jpg"
+    "qr-image": "https://s3-ap-northeast-1.amazonaws.com/dev-cpa-s3-materials/qr/0001245.jpg",
+    "start-date": "20190401",
+    "end-date": "20190901"
 }, {
     "id": "0001246",
     "title": "全商品 5% OFF !",
     "explain": "何回でも利用可能。他のクーポンとの併用はできません。クーポンをご利用いただいた場合、ポイントはつきません。",
     "coupon-image": "https://s3-ap-northeast-1.amazonaws.com/dev-cpa-s3-materials/coupon/0001246.png",
-    "qr-image": "https://s3-ap-northeast-1.amazonaws.com/dev-cpa-s3-materials/qr/0001246.jpg"
+    "qr-image": "https://s3-ap-northeast-1.amazonaws.com/dev-cpa-s3-materials/qr/0001246.jpg",
+    "start-date": "20180401",
+    "end-date": "20180901"
 }]
 
 if os.getenv("AWS_SAM_LOCAL"):
