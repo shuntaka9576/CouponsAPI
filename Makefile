@@ -9,8 +9,8 @@ clean:
 	-aws s3 rm s3://${S3_BUCKET_COUPONS} --recursive
 	aws cloudformation delete-stack --stack-name ${CFN_STACK_NAME}
 build:
-	-rm -rf build
-	mkdir -p ${BUILD_PATH}; touch ${BUILD_PATH}/__init__.py;
+	-rm -rf build; mkdir -p ${BUILD_PATH};
+	cd "$(PWD)/lambdaFunctions" && make dep
 	cp -r ./lambdaFunctions/couponsApi ${BUILD_PATH}
 	cp -r ./lambdaFunctions/initDynamo ${BUILD_PATH}
 	cp -r ./lambdaFunctions/libs ${BUILD_PATH}

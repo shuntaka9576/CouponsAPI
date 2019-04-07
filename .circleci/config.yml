@@ -21,7 +21,6 @@ jobs:
           command: |
             pip install pipenv
             pip install aws-sam-cli
-            pip install codecov
       - run:
           name: "Create LocaStack"
           command: |
@@ -31,7 +30,7 @@ jobs:
           name: "Install dependencies"
           command: |
             cd lambdaFunctions/
-            pipenv install
+            make dep-dev
       - run:
           name: "Run tests"
           command: |
