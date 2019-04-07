@@ -35,6 +35,6 @@ class GetIdController(Controller):
                 "errors": []
             },
             "response": {
-                "coupons": [res["Items"]]
+                "coupons": [res["Items"][0]]
             }
         })

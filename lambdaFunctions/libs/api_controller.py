@@ -36,17 +36,17 @@ class Controller:
     def ok(self, body):
         return {
             "statusCode": 200,
-            "body": json.dumps(body),
+            "body": json.dumps(body, ensure_ascii=False),
         }
 
     def bad(self, body):
         return {
             "statusCode": 400,
-            "body": json.dumps(body),
+            "body": json.dumps(body, ensure_ascii=False),
         }
 
     def notfound(self, body):
         return {
             "statusCode": 404,
-            "body": json.dumps(body),
+            "body": json.dumps(body, ensure_ascii=False),
         }
