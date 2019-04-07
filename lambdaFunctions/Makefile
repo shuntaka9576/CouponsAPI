@@ -1,5 +1,5 @@
 test:
-	pipenv run pytest -v
+	pipenv run pytest
 	$(eval COV_DIR := $(shell pwd))
 	@echo To confirm: $(COV_DIR)/htmlcov/index.html
 clean:

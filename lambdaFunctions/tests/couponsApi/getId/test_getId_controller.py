@@ -1,44 +1,74 @@
 import json
-import termcolor
+
+from tests.fixture import couponTestDatas, initDb
+
 from couponsApi.getId.getId_controller import GetIdController
-from tests.fixture import initdb, couponTestDatas
 
 
 class TestGetIdController:
-    def test_handler_200_successValue1(self, initdb):
-        for coupon in couponTestDatas:
-            input = {"id": coupon["id"]}
-            expectCode = 200
-            expectRes = {
-                "header": {
-                    "status": "Success",
-                    "errors": []
+    def test_handler(self, initDb):
+        tests = [
+            {
+                "name": "Request 0001245",
+                "input": {"id": "0001245"},
+                "expect": {
+                    "status": 200,
+                    "body": {
+                        "header": {"status": "Success", "errors": []},
+                        "response": {"coupons": [couponTestDatas["0001245"]]},
+                    },
                 },
-                "response": {
-                    "coupons": [coupon]
-                }
-            }
+            },
+            {
+                "name": "Request 0001246",
+                "input": {"id": "0001246"},
+                "expect": {
+                    "status": 200,
+                    "body": {
+                        "header": {"status": "Success", "errors": []},
+                        "response": {"coupons": [couponTestDatas["0001246"]]},
+                    },
+                },
+            },
+            {
+                "name": "Unsupported coupons id",
+                "input": {"id": "1"},
+                "expect": {
+                    "status": 400,
+                    "body": {
+                        "header": {
+                            "status": "Error",
+                            "errors": [
+                                {"field": "id", "message": "Unsupported coupon id"}
+                            ],
+                        }
+                    },
+                },
+            },
+            {
+                "name": "invalid value",
+                "input": {"id": "zero"},
+                "expect": {
+                    "status": 400,
+                    "body": {
+                        "header": {
+                            "status": "Error",
+                            "errors": [
+                                {
+                                    "field": "id",
+                                    "message": "value does not match regex '[0-9].*'",
+                                }
+                            ],
+                        }
+                    },
+                },
+            },
+        ]
 
-            want = GetIdController().handler(input)
-            # 文字列だと比較出来ないので、辞書型にキャストして比較
-            wantBody = json.loads(want["body"])
-            assert expectCode == want["statusCode"]
-            assert expectRes == wantBody
+        for test in tests:
+            result = GetIdController().handler(test.get("input"))
+            expectCode = test.get("expect").get("status")
+            expectRes = test.get("expect").get("body")
 
-    def test_handler_400_integerValue(self, initdb):
-        expectCode = 400
-        input = {"id": 1245}
-        want = GetIdController().handler(input)
-        assert expectCode == want["statusCode"]
-
-    def test_handler_400_notNumberValue(self, initdb):
-        input = {"id": "zeroonetwo"}
-        expectCode = 400
-        want = GetIdController().handler(input)
-        assert expectCode == want["statusCode"]
-
-    def test_handler_400_unsupportedCouponId(self, initdb):
-        input = {"id": "000111"}
-        expectCode = 400
-        want = GetIdController().handler(input)
-        assert expectCode == want["statusCode"]
+            assert result.get("statusCode") == expectCode
+            assert json.loads(result.get("body")) == expectRes
