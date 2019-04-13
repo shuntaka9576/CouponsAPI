@@ -68,11 +68,11 @@ def initDb():
     """
     # テーブルデータをtruncate
     for couponKey in couponTestDatas:
-        table.delete_item(Key={"id": couponTestDatas.get(couponKey).get("id")})
+        table.delete_item(Key={"id": couponTestDatas[couponKey]["id"]})
 
     # テストデータを投入
     for couponKey in couponTestDatas:
-        table.put_item(Item=couponTestDatas.get(couponKey))
+        table.put_item(Item=couponTestDatas[couponKey])
 
     yield print(termcolor.colored("PutDB[OK] ", "green"), end="")
 
@@ -81,10 +81,10 @@ def initDb():
     """
     # テストコード実行後、テーブルをtruncate
     for couponKey in couponTestDatas:
-        table.delete_item(Key={"id": couponTestDatas.get(couponKey).get("id")})
+        table.delete_item(Key={"id": couponTestDatas[couponKey]["id"]})
     res = table.scan()
 
-    if res.get("Count") == 0:
+    if res["Count"] == 0:
         print(termcolor.colored(" clearDB[OK] ", "green"), end="")
     else:
         raise Exception

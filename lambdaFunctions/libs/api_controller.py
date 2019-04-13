@@ -7,8 +7,8 @@ def _formatError(v):
     error_messages = v.errors
     errors = []
     for e in v._errors:
-        errors.append({"field": e.field, "message": error_messages[e.field][0]})
-        del error_messages[e.field][0]
+        errors.append({"field": e.field, "message": error_messages.get(e.field)[0]})
+        del error_messages.get(e.field)[0]
     return errors
 
 

@@ -13,10 +13,10 @@ class GetIdController(Controller):
             :param self: インスタンス
             :param params: 辞書型
         """
-        reqid = params["id"]
+        reqid = params.get("id")
         res = dynamoController().searchId(reqid)
 
-        if res["Count"] == 0:
+        if res.get("Count") == 0:
             return self.bad(
                 {
                     "header": {
@@ -29,6 +29,6 @@ class GetIdController(Controller):
         return self.ok(
             {
                 "header": {"status": "Success", "errors": []},
-                "response": {"coupons": [res["Items"][0]]},
+                "response": {"coupons": [res.get("Items")[0]]},
             }
         )

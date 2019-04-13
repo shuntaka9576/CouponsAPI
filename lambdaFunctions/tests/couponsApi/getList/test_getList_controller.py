@@ -117,12 +117,12 @@ class TestGetListController:
         ]
 
         for test in tests:
-            result = GetListController().queryHandler(test.get("input"))
-            expectCode = test.get("expect").get("status")
-            expectRes = test.get("expect").get("body")
+            result = GetListController().queryHandler(test["input"])
+            expectCode = test["expect"]["status"]
+            expectRes = test["expect"]["body"]
 
-            assert result.get("statusCode") == expectCode
-            assert json.loads(result.get("body")) == expectRes
+            assert result["statusCode"] == expectCode
+            assert json.loads(result["body"]) == expectRes
 
     def test_pathHandler(self, initDb):
         testDatas = [couponTestDatas[couponKey] for couponKey in couponTestDatas]
@@ -159,8 +159,8 @@ class TestGetListController:
         ]
 
         for test in tests:
-            result = GetListController().pathHandler(test.get("input"))
-            expectCode = test.get("expect").get("status")
-            expectRes = test.get("expect").get("body")
-            assert result.get("statusCode") == expectCode
-            assert json.loads(result.get("body")) == expectRes
+            result = GetListController().pathHandler(test["input"])
+            expectCode = test["expect"]["status"]
+            expectRes = test["expect"]["body"]
+            assert result["statusCode"] == expectCode
+            assert json.loads(result["body"]) == expectRes

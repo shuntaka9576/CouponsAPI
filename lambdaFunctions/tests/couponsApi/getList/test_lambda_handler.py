@@ -135,17 +135,17 @@ def test_lambda_handler_get(initDb):
     ]
 
     for test in tests:
-        if test.get("case") == "non-normal":
-            with pytest.raises(test.get("expect").get("Exception")) as pytest_wrapped_e:
-                lambda_handler(test.get("input"), {})
+        if test["case"] == "non-normal":
+            with pytest.raises(test["expect"]["Exception"]) as pytest_wrapped_e:
+                lambda_handler(test["input"], {})
 
-            assert pytest_wrapped_e.type == test.get("expect").get("Exception")
-            assert pytest_wrapped_e.value.code == test.get("expect").get("exitCode")
+            assert pytest_wrapped_e.type == test["expect"]["Exception"]
+            assert pytest_wrapped_e.value.code == test["expect"]["exitCode"]
 
         else:
-            result = lambda_handler(test.get("input"), {})
-            expectCode = test.get("expect").get("status")
-            expectRes = test.get("expect").get("body")
+            result = lambda_handler(test["input"], {})
+            expectCode = test["expect"]["status"]
+            expectRes = test["expect"]["body"]
 
-            assert result.get("statusCode") == expectCode
-            assert json.loads(result.get("body")) == expectRes
+            assert result["statusCode"] == expectCode
+            assert json.loads(result["body"]) == expectRes

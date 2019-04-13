@@ -66,9 +66,9 @@ class TestGetIdController:
         ]
 
         for test in tests:
-            result = GetIdController().handler(test.get("input"))
-            expectCode = test.get("expect").get("status")
-            expectRes = test.get("expect").get("body")
+            result = GetIdController().handler(test["input"])
+            expectCode = test["expect"]["status"]
+            expectRes = test["expect"]["body"]
 
-            assert result.get("statusCode") == expectCode
-            assert json.loads(result.get("body")) == expectRes
+            assert result["statusCode"] == expectCode
+            assert json.loads(result["body"]) == expectRes

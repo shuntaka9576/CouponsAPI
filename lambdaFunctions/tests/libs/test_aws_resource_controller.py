@@ -13,14 +13,14 @@ class TestDynamoController:
                 "name": "valid value",
                 "case": "normal",
                 "input": "0001245",
-                "expect": [couponTestDatas.get("0001245")],
+                "expect": [couponTestDatas["0001245"]],
             }
         ]
 
         for test in tests:
-            record = dynamoController().searchId(test.get("input"))
+            record = dynamoController().searchId(test["input"])
 
-            assert record.get("Items") == test.get("expect")
+            assert record["Items"] == test["expect"]
 
     def test_searchId_connectionFail(self, initDb):
         """ DBのエンドポイント接続不可テスト
@@ -41,7 +41,7 @@ class TestDynamoController:
         for test in tests:
             record = dynamoController().scanAll()
 
-            assert record.get("Items") == test.get("expect")
+            assert record["Items"] == test["expect"]
 
     def test_scanAll_connectionFail(self, initDb):
         config = Config(connect_timeout=1, read_timeout=1, retries=dict(max_attempts=1))
@@ -55,17 +55,17 @@ class TestDynamoController:
         tests = [
             {
                 "name": "valid value",
-                "input": couponTestDatas.get("0001245"),
-                "expect": {"Items": couponTestDatas.get("0001245"), "Count": 1},
+                "input": couponTestDatas["0001245"],
+                "expect": {"Items": couponTestDatas["0001245"], "Count": 1},
             }
         ]
 
         for test in tests:
-            dynamoController().putItem(test.get("input"))
+            dynamoController().putItem(test["input"])
             result = dynamoController().scanAll()
 
-            assert result.get("Items")[0] == test.get("expect").get("Items")
-            assert result.get("Count") == test.get("expect").get("Count")
+            assert result["Items"][0] == test["expect"]["Items"]
+            assert result["Count"] == test["expect"]["Count"]
 
     def test_putItem_connectionFail(self):
         config = Config(connect_timeout=1, read_timeout=1, retries=dict(max_attempts=1))
@@ -73,4 +73,4 @@ class TestDynamoController:
             "dynamodb", endpoint_url="http://localhost:9999/", config=config
         )
         with pytest.raises(Exception):
-            dynamoController(obj=dynamodb).putItem(couponTestDatas.get("0001245"))
+            dynamoController(obj=dynamodb).putItem(couponTestDatas["0001245"])
