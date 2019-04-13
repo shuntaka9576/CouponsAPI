@@ -7,7 +7,7 @@ DYNAMO_DB_DATA_FILE = ./dynamoData/initDbData.json
 
 clean:
 	-aws s3 rm s3://${S3_BUCKET_COUPONS} --recursive
-	aws cloudformation delete-stack --stack-name ${CFN_STACK_NAME}
+	# aws cloudformation delete-stack --stack-name ${CFN_STACK_NAME}
 build:
 	-rm -rf build; mkdir -p ${BUILD_PATH};
 	cd "$(PWD)/lambdaFunctions" && make dep
