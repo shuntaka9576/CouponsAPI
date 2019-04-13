@@ -21,6 +21,7 @@ class GetListController(Controller):
             :param params: 辞書型
         """
 
+        print("List問い合わせ")
         res = dynamoController().scanAll()
         return self.ok(
             {
@@ -37,6 +38,8 @@ class GetListController(Controller):
             :param self: インスタンス
             :param params: 辞書型
         """
+
+        print("List問い合わせ(期間付き)")
         res = dynamoController().scanAll()
 
         startDate = datetime.strptime(params.get("startdate"), "%Y%m%d")

@@ -1,7 +1,8 @@
 import json
 
-from couponsApi.getList.getList_controller import GetListController
 from tests.fixture import couponTestDatas, initDb
+
+from couponsApi.getList.getList_controller import GetListController
 
 
 class TestGetListController:
