@@ -80,9 +80,20 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       Name: couponsApiGateway
-      StageName: api
+      StageName: Prod
       DefinitionBody:
         Fn::Transform:
           Name: AWS::Include
           Parameters:
             Location: s3://dev-cpa-s3-developer/swagger.yaml
+
+Outputs:
+  ApiUrl:
+    Description: "API endpoint URL for Prod environment"
+    Value: !Join
+      - ''
+      - - https://
+        - !Ref couponsApiGateway
+        - '.execute-api.'
+        - !Ref 'AWS::Region'
+        - '.amazonaws.com/Prod/coupons'

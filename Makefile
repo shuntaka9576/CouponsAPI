@@ -20,6 +20,7 @@ deploy: clean build
 	sam package --template-file template.yaml --output-template-file packaged.yaml --s3-bucket ${S3_BUCKET_DEVELOPER}
 	aws cloudformation deploy --template-file packaged.yaml --stack-name ${CFN_STACK_NAME} --capabilities CAPABILITY_IAM
 	aws cloudformation describe-stacks --stack-name ${CFN_STACK_NAME} --query 'Stacks[].Outputs'
+	./script/apicheck.sh
 hook-initDynamo:
 	aws s3 cp ${DYNAMO_DB_DATA_FILE} s3://${S3_BUCKET_COUPONS}/dynamodb/initDbData.json
 upload-images:
