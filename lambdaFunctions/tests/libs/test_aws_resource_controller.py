@@ -1,9 +1,9 @@
 import boto3
 import pytest
 from botocore.config import Config
-from tests.fixture import couponTestDatas, initDb
+from tests.fixture import couponTestDatas, initDb, initS3
 
-from libs.aws_resource_controller import dynamoController
+from libs.aws_resource_controller import dynamoController, s3Controller
 
 
 class TestDynamoController:
@@ -74,3 +74,13 @@ class TestDynamoController:
         )
         with pytest.raises(Exception):
             dynamoController(obj=dynamodb).putItem(couponTestDatas["0001245"])
+
+
+class TestS3Controller:
+    def test_s3putItem_connectionFail(self, initS3):
+        config = Config(connect_timeout=1, read_timeout=1, retries=dict(max_attempts=1))
+        s3 = boto3.client("s3", endpoint_url="http://localhost:9999/", config=config)
+        with pytest.raises(Exception):
+            s3Controller(obj=s3).getObject(
+                "dev-cpa-s3-coupons", "dynamo/initDbData.json"
+            )

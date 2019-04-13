@@ -15,10 +15,10 @@ class GetListController(Controller):
     @validate(pathSchema)
     def pathHandler(self, params):
         """
-        GET /coupons 問い合わせ応答処理
-        Lambdaから渡されたパラメータを受け取り、全てのクーポン一覧を返却
+        Lambdaのメインハンドラから渡されたパラメータを受け取り、応答を返す
+        クエリパラーメータが設定されていない場合、本関数が呼び出される
             :param self: インスタンス
-            :param params: 辞書型
+            :param params: 辞書型(関数内の処理が実行される前にバリデーション処理が行われる)
         """
 
         print("List問い合わせ")
@@ -33,10 +33,10 @@ class GetListController(Controller):
     @validate(querySchema)
     def queryHandler(self, params):
         """
-        GET /coupons?startdate=yyyymmdd&enddate=yyyymmdd 問い合わせ処理
-        Lambdaから渡されたパラメータを受け取り、指定された期間永続的に利用可能なクーポン一覧を返却
+        Lambdaのメインハンドラから渡されたパラメータを受け取り、応答を返す
+        クエリパラーメータが設定された場合、本関数が呼び出される
             :param self: インスタンス
-            :param params: 辞書型
+            :param params: 辞書型(関数内の処理が実行される前にバリデーション処理が行われる)
         """
 
         print("List問い合わせ(期間付き)")

@@ -5,6 +5,12 @@ from libs.aws_resource_controller import dynamoController, s3Controller
 
 
 def lambda_handler(event, context):
+    """
+    S3にファイルがputされたときに、呼び出される
+    putされたファイルの内容を元に、DynamoDBを更新する
+        :param event: Lambdaに渡されるイベント情報
+        :param context: Lambdaに渡されるライタイム情報
+    """
     try:
         bucket = event.get("Records")[0].get("s3").get("bucket").get("name")
         key = urllib.parse.unquote_plus(

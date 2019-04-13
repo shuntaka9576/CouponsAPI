@@ -47,7 +47,7 @@ class s3Controller:
             else:
                 self.s3 = boto3.client("s3")
         else:
-            self.dynamodb = obj
+            self.s3 = obj
 
     def getObject(self, bucket, key):
         try:

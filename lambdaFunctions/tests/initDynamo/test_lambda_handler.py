@@ -1,5 +1,4 @@
 import pytest
-
 from tests.fixture import initS3
 
 
