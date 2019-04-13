@@ -3,7 +3,7 @@ BUILD_PATH = ./build
 S3_BUCKET_COUPONS = dev-cpa-s3-coupons
 S3_BUCKET_DEVELOPER = dev-cpa-s3-developer
 S3_BUCKET_MATERIALS = dev-cpa-s3-materials
-DYNAMO_DB_DATA_FILE = ./initDynamo/dynamoData/initDbData.json
+DYNAMO_DB_DATA_FILE = ./dynamoData/initDbData.json
 
 clean:
 	-aws s3 rm s3://${S3_BUCKET_COUPONS} --recursive
