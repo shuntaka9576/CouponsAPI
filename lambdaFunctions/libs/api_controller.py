@@ -36,5 +36,5 @@ class Controller:
     def bad(self, body):
         return {"statusCode": 400, "body": json.dumps(body, ensure_ascii=False)}
 
-    def notfound(self, body):
-        return {"statusCode": 404, "body": json.dumps(body, ensure_ascii=False)}
+    def internalServerError(self, body):
+        return {"statusCode": 500, "body": json.dumps(body, ensure_ascii=False)}
