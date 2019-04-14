@@ -12,6 +12,7 @@ class TestGetListController:
         tests = [
             {
                 "name": "check couponCode[0001246]",
+                "case": "normal",
                 "input": {"startdate": "20180401", "enddate": "20180501"},
                 "expect": {
                     "status": 200,
@@ -23,6 +24,7 @@ class TestGetListController:
             },
             {
                 "name": "check couponCode[0001245]",
+                "case": "normal",
                 "input": {"startdate": "20190401", "enddate": "20190501"},
                 "expect": {
                     "status": 200,
@@ -34,6 +36,7 @@ class TestGetListController:
             },
             {
                 "name": "check long duration",
+                "case": "normal",
                 "input": {"startdate": "20180401", "enddate": "20190501"},
                 "expect": {
                     "status": 200,
@@ -45,6 +48,7 @@ class TestGetListController:
             },
             {
                 "name": "Request today available coupon",
+                "case": "normal",
                 "input": {"startdate": "20180401", "enddate": "20180401"},
                 "expect": {
                     "status": 200,
@@ -56,6 +60,7 @@ class TestGetListController:
             },
             {
                 "name": "invalid date value",
+                "case": "normal",
                 "input": {"startdate": "2019/04/08", "enddate": "2019/05/04"},
                 "expect": {
                     "status": 400,
@@ -78,6 +83,7 @@ class TestGetListController:
             },
             {
                 "name": "invalid date value",
+                "case": "normal",
                 "input": {"startdate": "2019-04-08", "enddate": "2019-05-04"},
                 "expect": {
                     "status": 400,
@@ -100,6 +106,7 @@ class TestGetListController:
             },
             {
                 "name": "startdate is more than enddate",
+                "case": "normal",
                 "input": {"startdate": "20190401", "enddate": "20190101"},
                 "expect": {
                     "status": 400,

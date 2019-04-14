@@ -39,7 +39,14 @@ def lambda_handler(event, context):
             query = None
     else:
         print("Unexpected HTTP method has been triggered:", event.get("httpMethod"))
-        sys.exit(1)
+        return GetListController().methodNotAllowed(
+            {
+                "header": {
+                    "status": "Error",
+                    "errors": [{"message": "Unsupported method"}],
+                }
+            }
+        )
 
     if query is None:
         return GetListController().pathHandler({"path": path})

@@ -36,5 +36,8 @@ class Controller:
     def bad(self, body):
         return {"statusCode": 400, "body": json.dumps(body, ensure_ascii=False)}
 
+    def methodNotAllowed(self, body):
+        return {"statusCode": 405, "body": json.dumps(body, ensure_ascii=False)}
+
     def internalServerError(self, body):
         return {"statusCode": 500, "body": json.dumps(body, ensure_ascii=False)}

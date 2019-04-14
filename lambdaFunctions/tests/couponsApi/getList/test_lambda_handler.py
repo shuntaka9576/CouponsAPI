@@ -124,28 +124,22 @@ def test_lambda_handler_get(initDb):
         },
         {
             "name": "Unsupported HTTP method",
-            "case": "non-normal",
-            "input": {
-                "httpMethod": "HEAD",
-                "path": "/coupons",
-                "queryStringParameters": None,
+            "case": "normal",
+            "input": {"startdate": "20190401", "enddate": "20190101"},
+            "expect": {
+                "status": 405,
+                "body": {
+                    "header": {
+                        "status": "Error",
+                        "errors": [{"message": "Unsupported method"}],
+                    }
+                },
             },
-            "expect": {"Exception": SystemExit, "exitCode": 1},
         },
     ]
 
     for test in tests:
-        if test["case"] == "non-normal":
-            with pytest.raises(test["expect"]["Exception"]) as pytest_wrapped_e:
-                lambda_handler(test["input"], {})
+        result = lambda_handler(test["input"], {})
 
-            assert pytest_wrapped_e.type == test["expect"]["Exception"]
-            assert pytest_wrapped_e.value.code == test["expect"]["exitCode"]
-
-        else:
-            result = lambda_handler(test["input"], {})
-            expectCode = test["expect"]["status"]
-            expectRes = test["expect"]["body"]
-
-            assert result["statusCode"] == expectCode
-            assert json.loads(result["body"]) == expectRes
+        assert result["statusCode"] == test["expect"]["status"]
+        assert json.loads(result["body"]) == test["expect"]["body"]
