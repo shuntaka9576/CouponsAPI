@@ -1,6 +1,8 @@
 import json
 
-from tests.fixture import couponTestDatas, initDb
+import boto3
+from botocore.config import Config
+from tests.fixture import couponTestDatas, initDb, initS3
 
 from couponsApi.getList.getList_controller import GetListController
 
@@ -118,11 +120,32 @@ class TestGetListController:
 
         for test in tests:
             result = GetListController().queryHandler(test["input"])
-            expectCode = test["expect"]["status"]
-            expectRes = test["expect"]["body"]
 
-            assert result["statusCode"] == expectCode
-            assert json.loads(result["body"]) == expectRes
+            assert result["statusCode"] == test["expect"]["status"]
+            assert json.loads(result["body"]) == test["expect"]["body"]
+
+    def test_queryHandler_internalServerError(self):
+        """dynamodbデータ取得処理で異常があった場合
+        指定した宛先は、LISTENしていないポートを指定
+        """
+        input = {"startdate": "20180401", "enddate": "20180501"}
+        expect = {
+            "status": 500,
+            "body": {
+                "header": {
+                    "status": "Error",
+                    "errors": [{"message": "Intenal server error"}],
+                }
+            },
+        }
+        config = Config(connect_timeout=1, read_timeout=1, retries=dict(max_attempts=1))
+        dynamodb = boto3.resource(
+            "dynamodb", endpoint_url="http://localhost:9999/", config=config
+        )
+        result = GetListController().queryHandler(input, obj=dynamodb)
+
+        assert result["statusCode"] == expect["status"]
+        assert json.loads(result["body"]) == expect["body"]
 
     def test_pathHandler(self, initDb):
         testDatas = [couponTestDatas[couponKey] for couponKey in couponTestDatas]
@@ -160,7 +183,28 @@ class TestGetListController:
 
         for test in tests:
             result = GetListController().pathHandler(test["input"])
-            expectCode = test["expect"]["status"]
-            expectRes = test["expect"]["body"]
-            assert result["statusCode"] == expectCode
-            assert json.loads(result["body"]) == expectRes
+            assert result["statusCode"] == test["expect"]["status"]
+            assert json.loads(result["body"]) == test["expect"]["body"]
+
+    def test_pathHandler_internalServerError(self):
+        """dynamodbデータ取得処理で異常があった場合
+        指定した宛先は、LISTENしていないポートを指定
+        """
+        input = {"path": "/coupons"}
+        expect = {
+            "status": 500,
+            "body": {
+                "header": {
+                    "status": "Error",
+                    "errors": [{"message": "Intenal server error"}],
+                }
+            },
+        }
+        config = Config(connect_timeout=1, read_timeout=1, retries=dict(max_attempts=1))
+        dynamodb = boto3.resource(
+            "dynamodb", endpoint_url="http://localhost:9999/", config=config
+        )
+        result = GetListController().pathHandler(input, obj=dynamodb)
+
+        assert result["statusCode"] == expect["status"]
+        assert json.loads(result["body"]) == expect["body"]
