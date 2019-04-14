@@ -2,6 +2,7 @@ from datetime import datetime
 
 from libs.api_controller import Controller, validate
 from libs.aws_resource_controller import dynamoController
+from libs.datetimeUtil import checkDate
 
 pathSchema = {"path": {"type": "string", "regex": "/coupons"}}
 
@@ -57,8 +58,16 @@ class GetListController(Controller):
                 res = dynamoController().scanAll()
             else:
                 res = dynamoController(obj=obj).scanAll()
-            startDate = datetime.strptime(params.get("startdate"), "%Y%m%d")
-            endDate = datetime.strptime(params.get("enddate"), "%Y%m%d")
+
+            errors = []
+            startDate = checkDate(params.get("startdate"))
+            endDate = checkDate(params.get("enddate"))
+            if startDate is None:
+                errors.append({"filed": "startdate", "message": "incorrect as date"})
+            if endDate is None:
+                errors.append({"filed": "enddate", "message": "incorrect as date"})
+            if len(errors) > 0:
+                return self.bad({"header": {"status": "Error", "errors": errors}})
 
             if startDate > endDate:
                 return self.bad(
@@ -67,8 +76,8 @@ class GetListController(Controller):
                             "status": "Error",
                             "errors": [
                                 {
-                                    "filed": "start-date",
-                                    "message": "period that does not exist",
+                                    "filed": "startdate",
+                                    "message": "startdate later than enddate",
                                 }
                             ],
                         }
@@ -77,10 +86,16 @@ class GetListController(Controller):
 
             rescoupons = []
             for coupon in res.get("Items"):
-                couponStartDate = datetime.strptime(coupon.get("start-date"), "%Y%m%d")
-                couponEndDate = datetime.strptime(coupon.get("end-date"), "%Y%m%d")
+                couponStartDate = checkDate(coupon.get("start-date"))
+                couponEndDate = checkDate(coupon.get("end-date"))
                 if startDate >= couponStartDate and endDate <= couponEndDate:
                     rescoupons.append(coupon)
+            return self.ok(
+                {
+                    "header": {"status": "Success", "errors": []},
+                    "response": {"coupons": rescoupons},
+                }
+            )
         except Exception as e:
             print("queryHandler unexpected error: ", e)
             return self.internalServerError(
@@ -91,9 +106,3 @@ class GetListController(Controller):
                     }
                 }
             )
-        return self.ok(
-            {
-                "header": {"status": "Success", "errors": []},
-                "response": {"coupons": rescoupons},
-            }
-        )

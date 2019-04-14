@@ -105,6 +105,55 @@ class TestGetListController:
                 },
             },
             {
+                "name": "Nonexistent startdate",
+                "case": "normal",
+                "input": {"startdate": "20180431", "enddate": "20190501"},
+                "expect": {
+                    "status": 400,
+                    "body": {
+                        "header": {
+                            "status": "Error",
+                            "errors": [
+                                {"filed": "startdate", "message": "incorrect as date"}
+                            ],
+                        }
+                    },
+                },
+            },
+            {
+                "name": "Nonexistent enddate",
+                "case": "normal",
+                "input": {"startdate": "20180401", "enddate": "20190431"},
+                "expect": {
+                    "status": 400,
+                    "body": {
+                        "header": {
+                            "status": "Error",
+                            "errors": [
+                                {"filed": "enddate", "message": "incorrect as date"}
+                            ],
+                        }
+                    },
+                },
+            },
+            {
+                "name": "Nonexistent startdate and enddate",
+                "case": "normal",
+                "input": {"startdate": "20180431", "enddate": "20190432"},
+                "expect": {
+                    "status": 400,
+                    "body": {
+                        "header": {
+                            "status": "Error",
+                            "errors": [
+                                {"filed": "startdate", "message": "incorrect as date"},
+                                {"filed": "enddate", "message": "incorrect as date"},
+                            ],
+                        }
+                    },
+                },
+            },
+            {
                 "name": "startdate is more than enddate",
                 "case": "normal",
                 "input": {"startdate": "20190401", "enddate": "20190101"},
@@ -115,8 +164,8 @@ class TestGetListController:
                             "status": "Error",
                             "errors": [
                                 {
-                                    "filed": "start-date",
-                                    "message": "period that does not exist",
+                                    "filed": "startdate",
+                                    "message": "startdate later than enddate",
                                 }
                             ],
                         }
