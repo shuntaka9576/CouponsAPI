@@ -1,6 +1,5 @@
 import json
 
-import pytest
 from tests.fixture import couponTestDatas, initDb
 
 from couponsApi.getId.lambda_handler import lambda_handler

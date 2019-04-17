@@ -1,5 +1,4 @@
 import json
-import sys
 
 from couponsApi.getList.getList_controller import GetListController
 

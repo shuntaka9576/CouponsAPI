@@ -46,13 +46,13 @@ Resources:
       Tags:
         SystemID: 'CPA'
       Events:
-        getlistId:
+        getlist:
           Type: Api
           Properties:
             RestApiId: !Ref couponsApiGateway
             Path: /coupons
             Method: get
-        postlistId:
+        postlist:
           Type: Api
           Properties:
             RestApiId: !Ref couponsApiGateway
@@ -69,18 +69,12 @@ Resources:
       Tags:
         SystemID: 'CPA'
       Events:
-        getlistId:
+        getId:
           Type: Api
           Properties:
             RestApiId: !Ref couponsApiGateway
             Path: /coupons/{id}
             Method: get
-        postlistId:
-          Type: Api
-          Properties:
-            RestApiId: !Ref couponsApiGateway
-            Path: /coupons/{id}
-            Method: post
 
   couponsApiGateway:
     Type: AWS::Serverless::Api

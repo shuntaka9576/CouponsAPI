@@ -2,7 +2,7 @@ import json
 
 import boto3
 from botocore.config import Config
-from tests.fixture import couponTestDatas, initDb, initS3
+from tests.fixture import couponTestDatas, initDb
 
 from couponsApi.getId.getId_controller import GetIdController
 
