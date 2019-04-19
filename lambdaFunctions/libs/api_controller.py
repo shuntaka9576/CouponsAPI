@@ -31,13 +31,31 @@ def validate(schema):
 
 class Controller:
     def ok(self, body):
-        return {"statusCode": 200, "body": json.dumps(body, ensure_ascii=False)}
+        return {
+            "statusCode": 200,
+            "headers": {
+                "Access-Control-Allow-Origin": "*"  # Required for CORS support to work
+            },
+            "body": json.dumps(body, ensure_ascii=False),
+        }
 
     def bad(self, body):
-        return {"statusCode": 400, "body": json.dumps(body, ensure_ascii=False)}
+        return {
+            "statusCode": 400,
+            "headers": {"Access-Control-Allow-Origin": "*"},
+            "body": json.dumps(body, ensure_ascii=False),
+        }
 
     def methodNotAllowed(self, body):
-        return {"statusCode": 405, "body": json.dumps(body, ensure_ascii=False)}
+        return {
+            "statusCode": 405,
+            "headers": {"Access-Control-Allow-Origin": "*"},
+            "body": json.dumps(body, ensure_ascii=False),
+        }
 
     def internalServerError(self, body):
-        return {"statusCode": 500, "body": json.dumps(body, ensure_ascii=False)}
+        return {
+            "statusCode": 500,
+            "headers": {"Access-Control-Allow-Origin": "*"},
+            "body": json.dumps(body, ensure_ascii=False),
+        }
