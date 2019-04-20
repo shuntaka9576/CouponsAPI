@@ -1,18 +1,19 @@
 import pytest
 from tests.fixture import initS3
 
+from initDynamo.lambda_handler import lambda_handler
+
 
 def test_lambda_handler(initS3):
-    from initDynamo.lambda_handler import lambda_handler
-
-    """
+    """ initDynamoのlambda_handlerのテスト関数
     正常系は以下のデータ比較し、パスすることを確認する
         expect: ./testdata/initDbData.json
         result: Dynamodbのデータ
     """
+
     tests = [
         {
-            "name": "success",
+            "name": "正常系",
             "case": "normal",
             "input": {
                 "Records": [
@@ -24,16 +25,9 @@ def test_lambda_handler(initS3):
                     }
                 ]
             },
-            "expect": "",
         },
         {
-            "name": "empty key Records",
-            "case": "non-normal",
-            "input": {"Records": []},
-            "expect": "",
-        },
-        {
-            "name": "not found s3 file object",
+            "name": "存在しないファイルのイベントがきた場合",
             "case": "non-normal",
             "input": {
                 "Records": [
@@ -50,9 +44,8 @@ def test_lambda_handler(initS3):
     ]
 
     for test in tests:
-        if test.get("case") == "non-normal":
+        if test["case"] == "non-normal":
             with pytest.raises(Exception):
-                lambda_handler(test.get("input"), {})
+                lambda_handler(test["input"], {})
         else:
-            # Exceptionが起きなければ、パス
-            lambda_handler(test.get("input"), {})
+            lambda_handler(test["input"], {})

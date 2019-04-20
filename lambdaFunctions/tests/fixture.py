@@ -5,6 +5,7 @@ import pytest
 
 import termcolor
 
+# テスト時に利用するクーポンデータ
 couponTestDatas = {
     "0001245": {
         "id": "0001245",
@@ -27,6 +28,7 @@ couponTestDatas = {
 }
 
 
+# 環境変数でLocalstackとawsで宛先を変更
 if os.getenv("AWS_SAM_LOCAL"):
     dynamodb = boto3.resource("dynamodb", endpoint_url="http://localhost:4569/")
     s3 = boto3.client("s3", endpoint_url="http://localhost:4572/")

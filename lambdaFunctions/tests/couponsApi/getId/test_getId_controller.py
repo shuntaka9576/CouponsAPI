@@ -9,9 +9,11 @@ from couponsApi.getId.getId_controller import GetIdController
 
 class TestGetIdController:
     def test_handler(self, initDb):
+        """ /coupons/{id}のControllerロジックのテスト
+        """
         tests = [
             {
-                "name": "Request 0001245",
+                "name": "クーポンID(0001245)の問合せ",
                 "case": "normal",
                 "input": {"id": "0001245"},
                 "expect": {
@@ -23,7 +25,7 @@ class TestGetIdController:
                 },
             },
             {
-                "name": "Request 0001246",
+                "name": "クーポンID(0001246)の問合せ",
                 "case": "normal",
                 "input": {"id": "0001246"},
                 "expect": {
@@ -35,7 +37,7 @@ class TestGetIdController:
                 },
             },
             {
-                "name": "Unsupported coupons id",
+                "name": "サポートされていないクーポンIDの問合せ",
                 "case": "normal",
                 "input": {"id": "1"},
                 "expect": {
@@ -51,7 +53,7 @@ class TestGetIdController:
                 },
             },
             {
-                "name": "invalid value",
+                "name": "パラメータidのvalueに数値以外を指定した問合せ",
                 "case": "normal",
                 "input": {"id": "zero"},
                 "expect": {
@@ -78,25 +80,28 @@ class TestGetIdController:
             assert json.loads(result["body"]) == test["expect"]["body"]
 
     def test_handler_internalServerError(self):
-        """dynamodbデータ取得処理で異常があった場合
+        """ dynamodbデータ取得処理で異常があった場合
         指定した宛先は、LISTENしていないポートを指定
         """
-        inpunt = {"id": "0001246"}
-        expect = {
-            "status": 500,
-            "body": {
-                "header": {
-                    "status": "Error",
-                    "errors": [{"message": "Intenal server error"}],
-                }
+        test = {
+            "input": {"id": "0001246"},
+            "expect": {
+                "name": "データソースとの接続がタイムアウトしたときの問合せ",
+                "case": "normal",
+                "status": 500,
+                "body": {
+                    "header": {
+                        "status": "Error",
+                        "errors": [{"message": "Intenal server error"}],
+                    }
+                },
             },
         }
-
         config = Config(connect_timeout=1, read_timeout=1, retries=dict(max_attempts=1))
         dynamodb = boto3.resource(
             "dynamodb", endpoint_url="http://localhost:9999/", config=config
         )
-        result = GetIdController().handler(inpunt, obj=dynamodb)
+        result = GetIdController().handler(test["input"], obj=dynamodb)
 
-        assert result["statusCode"] == expect["status"]
-        assert json.loads(result["body"]) == expect["body"]
+        assert result["statusCode"] == test["expect"]["status"]
+        assert json.loads(result["body"]) == test["expect"]["body"]

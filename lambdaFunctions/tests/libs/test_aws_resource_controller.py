@@ -10,7 +10,7 @@ class TestDynamoController:
     def test_searchId_success(self, initDb):
         tests = [
             {
-                "name": "valid value",
+                "name": "正常系",
                 "case": "normal",
                 "input": "0001245",
                 "expect": [couponTestDatas["0001245"]],
@@ -26,7 +26,6 @@ class TestDynamoController:
         """ DBのエンドポイント接続不可テスト
         指定した宛先は、LISTENしていないポートを指定
         """
-
         config = Config(connect_timeout=1, read_timeout=1, retries=dict(max_attempts=1))
         dynamodb = boto3.resource(
             "dynamodb", endpoint_url="http://localhost:9999/", config=config

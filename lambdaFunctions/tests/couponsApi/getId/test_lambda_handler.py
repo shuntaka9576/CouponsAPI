@@ -7,11 +7,11 @@ from couponsApi.getId.lambda_handler import lambda_handler
 
 def test_lambda_handler_get(initDb):
     """getIdのlambda_handlerのテスト関数
+    HTTPメソッド分岐処理を中心にテスト
     """
-
     tests = [
         {
-            "name": "GET /coupons/0001245 Success",
+            "name": "クーポンID(0001245)の問合せ",
             "case": "normal",
             "input": {
                 "httpMethod": "GET",
@@ -27,7 +27,7 @@ def test_lambda_handler_get(initDb):
             },
         },
         {
-            "name": "Unsupported HTTP method",
+            "name": "サポートされていないクーポンIDの問合せ",
             "case": "normal",
             "input": {
                 "httpMethod": "HEAD",

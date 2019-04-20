@@ -6,14 +6,14 @@ from couponsApi.getList.lambda_handler import lambda_handler
 
 
 def test_lambda_handler_get(initDb):
-    """getListのlambda_handlerのテスト関数
+    """ getListのlambda_handlerのテスト関数
+    HTTPメソッド分岐処理を中心にテスト
     """
-
     testDatas = [couponTestDatas[couponKey] for couponKey in couponTestDatas]
 
     tests = [
         {
-            "name": "GET /coupons Success",
+            "name": "GET クーポン一覧問合せ",
             "case": "normal",
             "input": {
                 "httpMethod": "GET",
@@ -30,7 +30,7 @@ def test_lambda_handler_get(initDb):
             },
         },
         {
-            "name": "GET /coupons?startdate=yyyymmdd&enddate=yyymmdd Success",
+            "name": "GET 期間問い合せ(id:0001246)",
             "case": "normal",
             "input": {
                 "httpMethod": "GET",
@@ -50,7 +50,7 @@ def test_lambda_handler_get(initDb):
             },
         },
         {
-            "name": "POST /coupons Success",
+            "name": "POST クーポン一覧問合せ",
             "case": "normal",
             "input": {
                 "httpMethod": "POST",
@@ -67,7 +67,7 @@ def test_lambda_handler_get(initDb):
             },
         },
         {
-            "name": "POST /coupons?startdate=yyyymmdd&enddate=yyymmdd Success",
+            "name": "POST 期間問い合せ(id:0001246)",
             "case": "normal",
             "input": {
                 "httpMethod": "POST",
@@ -84,24 +84,7 @@ def test_lambda_handler_get(initDb):
             },
         },
         {
-            "name": "POST /coupons?startdate=yyyymmdd&enddate=yyymmdd Success",
-            "case": "normal",
-            "input": {
-                "httpMethod": "POST",
-                "path": "/coupons",
-                "body": '{"startdate":"20180401","enddate":"20180501"}',
-                "queryStringParameters": None,
-            },
-            "expect": {
-                "status": 200,
-                "body": {
-                    "header": {"status": "Success", "errors": []},
-                    "response": {"coupons": [couponTestDatas["0001246"]]},
-                },
-            },
-        },
-        {
-            "name": "POST /coupons?startdate=yyyymmdd&enddate=yyymmdd invalid POST body",
+            "name": "POST 期間問合せ(不正Bodyメッセージ)",
             "case": "normal",
             "input": {
                 "httpMethod": "POST",
@@ -122,7 +105,7 @@ def test_lambda_handler_get(initDb):
             },
         },
         {
-            "name": "Unsupported HTTP method",
+            "name": "サポートされていないメソッド問い合せ",
             "case": "normal",
             "input": {"startdate": "20190401", "enddate": "20190101"},
             "expect": {
