@@ -79,7 +79,7 @@ Resources:
   couponsApiGateway:
     Type: AWS::Serverless::Api
     Properties:
-      Name: couponsApiGateway
+      Name: Coupons Api
       StageName: Prod
       DefinitionBody:
         Fn::Transform:

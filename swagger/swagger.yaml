@@ -1,15 +1,20 @@
 swagger: "2.0"
 info:
   vesion: "1.0.0"
-  description: "This is CouponsAPI"
-  title: "Coupons Api"
+  description: "クーポン情報を返却するAPIです"
+  title: "CouponsApi"
+tags:
+  - name: coupon
+    description: "クーポン情報を返却するAPI群"
 schemes:
   - "https"
 paths:
   /coupons:
     get:
-      summary: "クーポン一覧API"
-      description: "クーポンの全て情報を返します。期間を指定した場合、その間利用可能なクーポン一覧を返却します。"
+      tags:
+        - coupon
+      summary: "一覧取得API(期間指定可)"
+      description: "全てのクーポン情報を返却します。期間を指定した場合、その間利用可能なクーポン一覧を返却します。"
       parameters:
       - name: "startdate"
         in: "query"
@@ -33,8 +38,10 @@ paths:
         httpMethod: POST
         type: aws_proxy
     post:
-      summary: "クーポン一覧API"
-      description: "クーポンの全て情報を返します。期間を指定した場合、その間利用可能なクーポン一覧を返却します。"
+      tags:
+        - coupon
+      summary: "一覧取得API(期間指定可)"
+      description: "全てのクーポン情報を返却します。期間を指定した場合、その間利用可能なクーポン一覧を返却します。"
       parameters:
       - name: "PostBody"
         in: "body"
@@ -52,6 +59,7 @@ paths:
         httpMethod: POST
         type: aws_proxy
     options:
+      summary: "CORS Support API"
       consumes:
       - "application/json"
       produces:
@@ -80,12 +88,14 @@ paths:
         type: "mock"
   /coupons/{id}:
     get:
-      summary: "クーポン情報API"
-      description: "指定されたidのクーポンの情報を返します"
+      tags:
+        - coupon
+      summary: "id指定取得API"
+      description: "指定されたidのクーポン情報を返します"
       parameters:
       - name: "id"
         in: "path"
-        description: "クーポンのID"
+        description: "クーポン毎に割り当てられている一意なidを指定してください"
         required: true
         type: "string"
       responses:
@@ -114,10 +124,10 @@ definitions:
   usagePeriod:
     type: "object"
     required:
-    - "enddate"
     - "startdate"
+    - "enddate"
     properties:
-      enddate:
-        type: "string"
       startdate:
+        type: "string"
+      enddate:
         type: "string"
