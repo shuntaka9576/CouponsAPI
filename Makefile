@@ -31,4 +31,5 @@ swagger:
 	$(eval REST_API_ID := $(shell aws cloudformation describe-stacks --stack-name dev-cpa-couponsApiStack --query 'Stacks[].Outputs[1].OutputValue' | perl -ne 'print $1 if(/"(.*?)"/)'))
 	aws apigateway get-export --parameters extensions='apigateway' --rest-api-id $(REST_API_ID) --stage-name Prod --export-type swagger ./swagger/generate_prod_swagger.json
 	cd "$(PWD)/swagger" && docker-compose up -d
+
 .PHONY: all build clean test swagger

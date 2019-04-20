@@ -5,6 +5,10 @@ from boto3.dynamodb.conditions import Key
 
 
 class dynamoController:
+    """
+    dynamodbを操作する際のboto3のラッパークラス
+    """
+
     def __init__(self, obj=None):
         if obj is None:
             if os.getenv("AWS_SAM_LOCAL"):
@@ -40,6 +44,10 @@ class dynamoController:
 
 
 class s3Controller:
+    """
+    S3を操作する際のboto3のラッパークラス
+    """
+
     def __init__(self, obj=None):
         if obj is None:
             if os.getenv("AWS_SAM_LOCAL"):

@@ -4,6 +4,9 @@ from cerberus import Validator
 
 
 def _formatError(v):
+    """
+    エラーが複数ある場合、配列に詰め直す関数
+    """
     error_messages = v.errors
     errors = []
     for e in v._errors:
@@ -13,6 +16,10 @@ def _formatError(v):
 
 
 def validate(schema):
+    """
+    Controllerに渡されるパラメータのバリデーションチェックを行うアノテーション
+    """
+
     def _validate(func):
         def wrapper(*args, **kwargs):
             v = Validator(schema)
@@ -30,6 +37,10 @@ def validate(schema):
 
 
 class Controller:
+    """
+    各APIは本Controllerを継承して作成する
+    """
+
     def ok(self, body):
         return {
             "statusCode": 200,
