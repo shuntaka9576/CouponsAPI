@@ -1,6 +1,6 @@
 #!/bin/bash
 
-API_ENDPOINT=$(aws cloudformation describe-stacks --stack-name dev-cpa-couponsApiStack --query 'Stacks[].Outputs[].OutputValue' | perl -ne 'print $1 if(/"(.*?)"/)')
+API_ENDPOINT=$(aws cloudformation describe-stacks --stack-name dev-cpa-couponsApiStack --query 'Stacks[].Outputs[0].OutputValue' | perl -ne 'print $1 if(/"(.*?)"/)')
 COLOR_ON="\033[0;36m"
 COLOR_OFF="\033[0;39m"
 

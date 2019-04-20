@@ -1,0 +1,265 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This is CouponsAPI",
+    "version" : "2019-04-20T05:00:19Z",
+    "title" : "couponsApiGateway"
+  },
+  "host" : "luk94o9b61.execute-api.ap-northeast-1.amazonaws.com",
+  "basePath" : "/Prod",
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/coupons" : {
+      "get" : {
+        "summary" : "クーポン一覧API",
+        "description" : "クーポンの全て情報を返します。期間を指定した場合、その間利用可能なクーポン一覧を返却します。",
+        "parameters" : [ {
+          "name" : "startdate",
+          "in" : "query",
+          "description" : "利用開始日付",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "enddate",
+          "in" : "query",
+          "description" : "利用終了日付",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Matches Objects."
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-1:842944609026:function:dev-cpa-couponsApiStack-couponsGetListFunction-8UZJ90PJLAZ9/invocations",
+          "passthroughBehavior" : "when_no_templates",
+          "httpMethod" : "POST",
+          "type" : "aws_proxy"
+        }
+      },
+      "post" : {
+        "summary" : "クーポン一覧API",
+        "description" : "クーポンの全て情報を返します。期間を指定した場合、その間利用可能なクーポン一覧を返却します。",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "usagePeriod",
+          "description" : "利用開始日付",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/usagePeriod"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Matches Objects."
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-1:842944609026:function:dev-cpa-couponsApiStack-couponsGetListFunction-8UZJ90PJLAZ9/invocations",
+          "passthroughBehavior" : "when_no_templates",
+          "httpMethod" : "POST",
+          "type" : "aws_proxy"
+        }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "responses" : {
+            "default" : {
+              "statusCode" : "200",
+              "responseParameters" : {
+                "method.response.header.Access-Control-Allow-Methods" : "'POST,GET,OPTIONS'",
+                "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                "method.response.header.Access-Control-Allow-Origin" : "'*'"
+              }
+            }
+          },
+          "passthroughBehavior" : "when_no_match",
+          "requestTemplates" : {
+            "application/json" : "{\"statusCode\": 200}"
+          },
+          "type" : "mock"
+        }
+      }
+    },
+    "/coupons/{id}" : {
+      "get" : {
+        "summary" : "クーポン情報API",
+        "description" : "指定されたidのクーポンの情報を返します",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "クーポンのID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response"
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "uri" : "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-1:842944609026:function:dev-cpa-couponsApiStack-couponsGetIdFunction-10B3M7CD38NK2/invocations",
+          "passthroughBehavior" : "when_no_templates",
+          "httpMethod" : "POST",
+          "type" : "aws_proxy"
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "usagePeriod" : {
+      "type" : "object",
+      "required" : [ "enddate", "startdate" ],
+      "properties" : {
+        "enddate" : {
+          "type" : "string"
+        },
+        "startdate" : {
+          "type" : "string"
+        }
+      }
+    }
+  },
+  "x-amazon-apigateway-documentation" : {
+    "version" : "0.0.1",
+    "createdDate" : "2019-04-20T05:33:00Z",
+    "documentationParts" : [ {
+      "location" : {
+        "type" : "API"
+      },
+      "properties" : {
+        "info" : {
+          "description" : "This is CouponsAPI"
+        }
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/coupons/{id}",
+        "method" : "GET"
+      },
+      "properties" : {
+        "summary" : "クーポン情報API",
+        "description" : "指定されたidのクーポンの情報を返します"
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/coupons",
+        "method" : "GET"
+      },
+      "properties" : {
+        "summary" : "クーポン一覧API",
+        "description" : "クーポンの全て情報を返します。期間を指定した場合、その間利用可能なクーポン一覧を返却します。"
+      }
+    }, {
+      "location" : {
+        "type" : "METHOD",
+        "path" : "/coupons",
+        "method" : "POST"
+      },
+      "properties" : {
+        "summary" : "クーポン一覧API",
+        "description" : "クーポンの全て情報を返します。期間を指定した場合、その間利用可能なクーポン一覧を返却します。"
+      }
+    }, {
+      "location" : {
+        "type" : "PATH_PARAMETER",
+        "path" : "/coupons/{id}",
+        "method" : "GET",
+        "name" : "id"
+      },
+      "properties" : {
+        "description" : "クーポンのID"
+      }
+    }, {
+      "location" : {
+        "type" : "QUERY_PARAMETER",
+        "path" : "/coupons",
+        "method" : "GET",
+        "name" : "enddate"
+      },
+      "properties" : {
+        "description" : "利用終了日付"
+      }
+    }, {
+      "location" : {
+        "type" : "QUERY_PARAMETER",
+        "path" : "/coupons",
+        "method" : "GET",
+        "name" : "startdate"
+      },
+      "properties" : {
+        "description" : "利用開始日付"
+      }
+    }, {
+      "location" : {
+        "type" : "REQUEST_BODY",
+        "path" : "/coupons",
+        "method" : "POST"
+      },
+      "properties" : {
+        "description" : "利用開始日付"
+      }
+    }, {
+      "location" : {
+        "type" : "RESPONSE",
+        "path" : "/coupons/{id}",
+        "method" : "GET",
+        "statusCode" : "200"
+      },
+      "properties" : {
+        "description" : "200 response"
+      }
+    }, {
+      "location" : {
+        "type" : "RESPONSE",
+        "path" : "/coupons",
+        "method" : "GET",
+        "statusCode" : "200"
+      },
+      "properties" : {
+        "description" : "Matches Objects."
+      }
+    }, {
+      "location" : {
+        "type" : "RESPONSE",
+        "path" : "/coupons",
+        "method" : "OPTIONS",
+        "statusCode" : "200"
+      },
+      "properties" : {
+        "description" : "200 response"
+      }
+    }, {
+      "location" : {
+        "type" : "RESPONSE",
+        "path" : "/coupons",
+        "method" : "POST",
+        "statusCode" : "200"
+      },
+      "properties" : {
+        "description" : "Matches Objects."
+      }
+    } ]
+  }
+}

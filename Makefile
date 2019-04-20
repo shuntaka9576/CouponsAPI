@@ -5,6 +5,7 @@ S3_BUCKET_DEVELOPER = dev-cpa-s3-developer
 S3_BUCKET_MATERIALS = dev-cpa-s3-materials
 DYNAMO_DB_DATA_FILE = ./dynamoData/initDbData.json
 
+
 clean:
 	-aws s3 rm s3://${S3_BUCKET_COUPONS} --recursive
 	# aws cloudformation delete-stack --stack-name ${CFN_STACK_NAME}
@@ -26,5 +27,8 @@ hook-initDynamo:
 upload-images:
 	aws s3 cp ./materials/pic/qr s3://${S3_BUCKET_MATERIALS}/qr --recursive
 	aws s3 cp ./materials/pic/coupon s3://${S3_BUCKET_MATERIALS}/coupon --recursive
-
-.PHONY: all build clean test
+swagger:
+	$(eval REST_API_ID := $(shell aws cloudformation describe-stacks --stack-name dev-cpa-couponsApiStack --query 'Stacks[].Outputs[1].OutputValue' | perl -ne 'print $1 if(/"(.*?)"/)'))
+	aws apigateway get-export --parameters extensions='apigateway' --rest-api-id $(REST_API_ID) --stage-name Prod --export-type swagger ./swagger/generate_prod_swagger.json
+	cd "$(PWD)/swagger" && docker-compose up -d
+.PHONY: all build clean test swagger

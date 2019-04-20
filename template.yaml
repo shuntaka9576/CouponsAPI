@@ -97,3 +97,6 @@ Outputs:
         - '.execute-api.'
         - !Ref 'AWS::Region'
         - '.amazonaws.com/Prod/coupons'
+  RestApiId:
+    Description: "RestApiId"
+    Value: !Ref couponsApiGateway
