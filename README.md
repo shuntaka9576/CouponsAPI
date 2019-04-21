@@ -29,13 +29,13 @@ make deploy
 ```
 
 ## SwaggerUI
-### local
+### Local
 Launch SwaggerUI container at http://localhost:1000.
 ```bash
 make swagger
 ```
 
-### browser
+### Live demo
 Put a following URL in [SwaggerUI](https://petstore.swagger.io/?_ga=2.95204319.279429875.1555660631-1287431053.1555660631).
 ```
 https://raw.githubusercontent.com/shuntaka9576/CouponsAPI/master/swagger/generate_prod_swagger.json
