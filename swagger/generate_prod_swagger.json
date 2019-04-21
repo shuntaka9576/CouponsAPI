@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "クーポン情報を返却するAPIです",
-    "version" : "2019-04-21T01:30:17Z",
+    "version" : "2019-04-21T03:16:32Z",
     "title" : "Coupons Api"
   },
   "host" : "ebfxm2842b.execute-api.ap-northeast-1.amazonaws.com",
@@ -74,6 +74,12 @@
             "schema" : {
               "$ref" : "#/definitions/apiResponse"
             }
+          },
+          "400" : {
+            "description" : "400 response"
+          },
+          "500" : {
+            "description" : "500 response"
           }
         },
         "x-amazon-apigateway-integration" : {
@@ -141,6 +147,12 @@
             "schema" : {
               "$ref" : "#/definitions/apiResponse"
             }
+          },
+          "400" : {
+            "description" : "Invalid input."
+          },
+          "500" : {
+            "description" : "Internal server error."
           }
         },
         "x-amazon-apigateway-integration" : {
@@ -178,7 +190,7 @@
     },
     "apiResponse" : {
       "type" : "object",
-      "required" : [ "response" ],
+      "required" : [ "header", "response" ],
       "properties" : {
         "response" : {
           "type" : "object",

@@ -58,6 +58,10 @@ paths:
           description: "Successful operation"
           schema:
             $ref: "#/definitions/apiResponse"
+        400:
+          description: "Invalid input."
+        500:
+          description: "Internal server error."
       x-amazon-apigateway-integration:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${couponsGetListFunction.Arn}/invocations
@@ -111,6 +115,10 @@ paths:
           description: "Successful operation"
           schema:
             $ref: "#/definitions/apiResponse"
+        400:
+          description: "Invalid input."
+        500:
+          description: "Internal server error."
       x-amazon-apigateway-integration:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${couponsGetIdFunction.Arn}/invocations
@@ -136,6 +144,7 @@ definitions:
   apiResponse:
     type: "object"
     required:
+    - "header"
     - "response"
     properties:
       header:
