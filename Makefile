@@ -17,9 +17,9 @@ build:
 	cp -r ./lambdaFunctions/libs ${BUILD_PATH}
 	cp -r ./lambdaFunctions/.venv/lib/python3.7/site-packages/* ${BUILD_PATH}
 deploy: clean build
-	aws s3 cp ./swagger/swagger.yaml s3://${S3_BUCKET_DEVELOPER}/swagger.yaml
-	sam package --template-file template.yaml --output-template-file packaged.yaml --s3-bucket ${S3_BUCKET_DEVELOPER}
-	aws cloudformation deploy --template-file packaged.yaml --stack-name ${CFN_STACK_NAME} --capabilities CAPABILITY_IAM
+	aws s3 cp ./swagger/swagger.yml s3://${S3_BUCKET_DEVELOPER}/swagger.yml
+	sam package --template-file template.yml --output-template-file packaged.yml --s3-bucket ${S3_BUCKET_DEVELOPER}
+	aws cloudformation deploy --template-file packaged.yml --stack-name ${CFN_STACK_NAME} --capabilities CAPABILITY_IAM
 	aws cloudformation describe-stacks --stack-name ${CFN_STACK_NAME} --query 'Stacks[].Outputs'
 	./script/apicheck.sh
 hook-initDynamo:

@@ -1,4 +1,4 @@
-packaged.yaml
+packaged.yml
 *.pyc
 build/
 .mypy_cache/

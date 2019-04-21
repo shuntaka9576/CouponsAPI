@@ -85,7 +85,7 @@ Resources:
         Fn::Transform:
           Name: AWS::Include
           Parameters:
-            Location: s3://dev-cpa-s3-developer/swagger.yaml
+            Location: s3://dev-cpa-s3-developer/swagger.yml
 
 Outputs:
   ApiUrl:
