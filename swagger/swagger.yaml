@@ -4,7 +4,7 @@ info:
   description: "クーポン情報を返却するAPIです"
   title: "CouponsApi"
 tags:
-  - name: coupon
+  - name: coupons
     description: "クーポン情報を返却するAPI群"
 schemes:
   - "https"
@@ -12,7 +12,7 @@ paths:
   /coupons:
     get:
       tags:
-        - coupon
+        - coupons
       summary: "一覧取得API(期間指定可)"
       description: "全てのクーポン情報を返却します。期間を指定した場合、その間利用可能なクーポン一覧を返却します。"
       parameters:
@@ -28,9 +28,13 @@ paths:
         type: "integer"
       responses:
         200:
-          description: "Matches Objects."
+          description: "Successful operation"
           schema:
-            $ref: "#definitions/coupons"
+            $ref: "#/definitions/apiResponse"
+        400:
+          description: "Invalid input."
+        500:
+          description: "Internal server error."
       x-amazon-apigateway-integration:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${couponsGetListFunction.Arn}/invocations
@@ -39,19 +43,21 @@ paths:
         type: aws_proxy
     post:
       tags:
-        - coupon
+        - coupons
       summary: "一覧取得API(期間指定可)"
       description: "全てのクーポン情報を返却します。期間を指定した場合、その間利用可能なクーポン一覧を返却します。"
       parameters:
       - name: "PostBody"
         in: "body"
-        description: "利用開始日付"
+        description: "利用開始日付(startdate)と利用終了日付(enddate)をキーとしたJSONをHTTPリクエストのボディ部に設定してください。"
         required: true
         schema:
           $ref: "#/definitions/usagePeriod"
       responses:
         200:
-          description: "Matches Objects."
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/apiResponse"
       x-amazon-apigateway-integration:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${couponsGetListFunction.Arn}/invocations
@@ -59,6 +65,8 @@ paths:
         httpMethod: POST
         type: aws_proxy
     options:
+      tags:
+        - coupons
       summary: "CORS Support API"
       consumes:
       - "application/json"
@@ -66,7 +74,7 @@ paths:
       - "application/json"
       responses:
         200:
-          description: "200 response"
+          description: "Successful operation"
           headers:
             Access-Control-Allow-Origin:
               type: "string"
@@ -89,7 +97,7 @@ paths:
   /coupons/{id}:
     get:
       tags:
-        - coupon
+        - coupons
       summary: "id指定取得API"
       description: "指定されたidのクーポン情報を返します"
       parameters:
@@ -100,7 +108,9 @@ paths:
         type: "string"
       responses:
         200:
-          description: "200 response"
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/apiResponse"
       x-amazon-apigateway-integration:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${couponsGetIdFunction.Arn}/invocations
@@ -108,19 +118,46 @@ paths:
         httpMethod: POST
         type: aws_proxy
 definitions:
-  coupons:
+  coupon:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      coupon-image:
+        type: "string"
+      qr-image:
+        type: "string"
+      explain:
+        type: "string"
+      start-date:
+        type: "string"
+      end-date:
+        type: "string"
+  apiResponse:
     type: "object"
     required:
     - "response"
     properties:
       header:
         type: "object"
-        status:
-          type: "string"
-        errors:
-          type: "array"
+        properties:
+          status:
+            type: "string"
+          errors:
+            type: "array"
+            items:
+              properties:
+                filed:
+                  type: "string"
+                message:
+                  type: "string"
       response:
         type: "object"
+        properties:
+          coupons:
+            type: "array"
+            items:
+              $ref: '#/definitions/coupon'
   usagePeriod:
     type: "object"
     required:
