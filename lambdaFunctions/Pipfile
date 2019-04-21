@@ -9,9 +9,16 @@ pytest-cov = "*"
 boto3 = "*"
 codecov = "*"
 termcolor = "*"
+mypy = "*"
+black = "*"
+flake8 = "*"
+isort = "*"
 
 [packages]
 Cerberus = "==1.2"
 
 [requires]
 python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true
