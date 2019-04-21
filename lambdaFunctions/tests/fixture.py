@@ -2,7 +2,6 @@ import os
 
 import boto3
 import pytest
-
 import termcolor
 
 # テスト時に利用するクーポンデータ

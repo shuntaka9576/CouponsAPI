@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from libs.api_controller import Controller, validate
 from libs.aws_resource_controller import dynamoController
 from libs.datetimeUtil import checkDate

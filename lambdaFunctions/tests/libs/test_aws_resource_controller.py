@@ -1,9 +1,9 @@
 import boto3
 import pytest
 from botocore.config import Config
-from tests.fixture import couponTestDatas, initDb, initS3
 
 from libs.aws_resource_controller import dynamoController, s3Controller
+from tests.fixture import couponTestDatas, initDb, initS3
 
 
 class TestDynamoController:

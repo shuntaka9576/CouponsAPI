@@ -1,7 +1,7 @@
 import pytest
-from tests.fixture import initS3
 
 from initDynamo.lambda_handler import lambda_handler
+from tests.fixture import initS3
 
 
 def test_lambda_handler(initS3):
